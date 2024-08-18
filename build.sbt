@@ -22,7 +22,7 @@ lazy val aggregatedProjects: Seq[ProjectReference] = Seq(
   cluster, clusterMetrics, clusterSharding, clusterTools,
   contrib,
   distributedData,
-  docs,
+  /*docs,*/
   multiNodeTestkit,
   osgi,
   persistence, persistenceQuery, persistenceShared, persistenceTck,
@@ -39,7 +39,7 @@ lazy val root = Project(
   base = file("."),
   aggregate = aggregatedProjects
 ).settings(rootSettings: _*)
- .settings(unidocRootIgnoreProjects := Seq(remoteTests, benchJmh, protobuf, akkaScalaNightly, docs))
+ .settings(unidocRootIgnoreProjects := Seq(remoteTests, benchJmh, protobuf, akkaScalaNightly/*, docs*/))
 
 lazy val actor = akkaModule("akka-actor")
 
@@ -51,7 +51,7 @@ lazy val agent = akkaModule("akka-agent")
 
 lazy val akkaScalaNightly = akkaModule("akka-scala-nightly")
   // remove dependencies that we have to build ourselves (Scala STM)
-  .aggregate(aggregatedProjects diff List[ProjectReference](agent, docs): _*)
+  .aggregate(aggregatedProjects diff List[ProjectReference](agent/*, docs*/): _*)
   .disablePlugins(ValidatePullRequest, MimaPlugin)
 
 lazy val benchJmh = akkaModule("akka-bench-jmh")
@@ -99,17 +99,17 @@ lazy val distributedData = akkaModule("akka-distributed-data")
   .dependsOn(cluster % "compile->compile;test->test;multi-jvm->multi-jvm")
   .configs(MultiJvm)
 
-lazy val docs = akkaModule("akka-docs")
-  .dependsOn(
-    actor, cluster, clusterMetrics, slf4j, agent, camel, osgi, persistenceTck, persistenceQuery, distributedData, stream,
-    clusterTools % "compile->compile;test->test",
-    testkit % "compile->compile;test->test",
-    remote % "compile->compile;test->test",
-    persistence % "compile->compile;provided->provided;test->test",
-    typed % "compile->compile;test->test",
-    typedTests % "compile->compile;test->test",
-    streamTestkit % "compile->compile;test->test"
-  )
+//lazy val docs = akkaModule("akka-docs")
+//  .dependsOn(
+//    actor, cluster, clusterMetrics, slf4j, agent, camel, osgi, persistenceTck, persistenceQuery, distributedData, stream,
+//    clusterTools % "compile->compile;test->test",
+//    testkit % "compile->compile;test->test",
+//    remote % "compile->compile;test->test",
+//    persistence % "compile->compile;provided->provided;test->test",
+//    typed % "compile->compile;test->test",
+//    typedTests % "compile->compile;test->test",
+//    streamTestkit % "compile->compile;test->test"
+//  )
 
 lazy val multiNodeTestkit = akkaModule("akka-multi-node-testkit")
   .dependsOn(remote, testkit)
